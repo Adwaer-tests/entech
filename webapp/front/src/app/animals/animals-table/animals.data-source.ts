@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from "@angular/cdk/collections";
-import {AnimalCreateRequest, AnimalViewModel, ApiClient, IAnimalViewModel} from "../../../core/api.client";
+import {AnimalCreateRequest, AnimalViewModel, ApiClient, IAnimalViewModel} from "../../core/api.client";
 import {BehaviorSubject, map, mergeMap, Observable, shareReplay, Subject, takeUntil, tap} from "rxjs";
 
 

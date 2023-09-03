@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, Self} from '@angular/core';
 import {AnimalsDataSource} from "./animals.data-source";
-import {ApiClient, IAnimalViewModel} from "../../../core/api.client";
-import {nameof, NgOnDestroy} from "../../../core/functions";
+import {ApiClient, IAnimalViewModel} from "../../core/api.client";
+import {nameof, NgOnDestroy} from "../../core/functions";
 
 @Component({
   selector: 'app-animals-table',
