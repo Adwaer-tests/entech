@@ -1,0 +1,36 @@
+version: '3.4'
+
+networks:
+  dockerapi-dev:
+    driver: bridge
+
+services:
+  api:
+    image: api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "5000:5443"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+    networks:
+      - dockerapi-dev
+
+  app:
+    container_name: front
+    build:
+      context: ./
+      dockerfile: ./front/Dockerfile
+#    env_file:
+#      - ./frontendt/.env
+    ports:
+      - 5080:5080
+    volumes:
+      - ./logs/:/app/logs
+      - ./assets:/app/assets
+    restart: always
+    networks:
+      - dockerapi-dev
+volumes:
+  db_volume:

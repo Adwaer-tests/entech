@@ -1,0 +1,25 @@
+<form [formGroup]="formGroup" (ngSubmit)="save()">
+  <h1 mat-dialog-title>Add Animal</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label> Enter a pet name</mat-label>
+      <input matInput formControlName="name" cdkFocusInitial>
+      <mat-icon matSuffix>name</mat-icon>
+      <mat-hint>Name is required and length should be from 2 to 100 symbols</mat-hint>
+      <mat-error>
+        <div class="icon-error">
+          <div class="error-container" *ngIf="formGroup.get('name') as field">
+            <span *ngIf="field.hasError('required')"> Required field </span>
+            <span *ngIf="field.hasError('minlength')"> Min length is 2 symbols </span>
+            <span *ngIf="field.hasError('maxlength')"> Min length is 100 symbols </span>
+          </div>
+        </div>
+      </mat-error>
+    </mat-form-field>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close="false">No</button>
+    <button type="submit" mat-button>Ok</button>
+  </div>
+</form>
