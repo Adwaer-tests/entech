@@ -1,4 +1,5 @@
-﻿using domain;
+﻿using System.ComponentModel.DataAnnotations;
+using domain;
 using host.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,7 @@ public class AnimalsController : ControllerBase
     public AnimalsController(IAnimalService animalService) => _animalService = animalService;
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<AnimalViewModel>), StatusCodes.Status200OK)]
     public async Task<IEnumerable<AnimalViewModel>> Get()
     {
         var animals = await _animalService.GetAll();
@@ -33,20 +34,15 @@ public class AnimalsController : ControllerBase
         return new ObjectResult(new AnimalViewModel(result)) { StatusCode = StatusCodes.Status201Created };
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Delete(AnimalDeleteRequest request)
+    public async Task<IActionResult> Delete([Range(1, int.MaxValue)] int id)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState.ToString());
-        }
-
         try
         {
-            await _animalService.Delete(request.Id);
+            await _animalService.Delete(id);
         }
         catch (KeyNotFoundException)
         {

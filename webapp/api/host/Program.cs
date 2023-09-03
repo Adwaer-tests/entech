@@ -18,11 +18,11 @@ builder.Services
     .AddDbContext<EfCtx>(x => x.UseInMemoryDatabase("animals-db"));
 
 var app = builder.Build();
-app.SeedData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.SeedData();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -34,5 +34,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }
