@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, Self} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AnimalsDataSource} from "./animals.data-source";
 import {ApiClient, IAnimalViewModel} from "../../core/api.client";
 import {nameof, NgOnDestroy} from "../../core/functions";
@@ -10,7 +10,7 @@ import {nameof, NgOnDestroy} from "../../core/functions";
   providers: [NgOnDestroy],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnimalsTableComponent implements OnInit {
+export class AnimalsTableComponent {
 
   displayedColumns: string[] = [
     'position',
@@ -19,13 +19,7 @@ export class AnimalsTableComponent implements OnInit {
   ];
   dataSource: AnimalsDataSource;
 
-  private isNoData: boolean = true;
-
-  constructor(private apiClient: ApiClient, @Self() private destroy$: NgOnDestroy) {
+  constructor(apiClient: ApiClient) {
     this.dataSource = new AnimalsDataSource(apiClient);
-  }
-
-  ngOnInit(): void {
-
   }
 }

@@ -23,16 +23,16 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
   exports: [
     AnimalsComponent
   ],
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatButtonModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatIconModule,
-        MatProgressBarModule
-    ]
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconModule,
+    MatProgressBarModule
+  ]
 })
 export class AnimalsModule {
 }
