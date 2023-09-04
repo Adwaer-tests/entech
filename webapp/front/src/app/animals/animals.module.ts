@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {AnimalsActionsComponent} from './animals-table/animals-actions/animals-actions.component';
 import {AnimalAddComponent} from './animals-table/animals-actions/animal-add/animal-add.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -22,15 +23,16 @@ import {AnimalAddComponent} from './animals-table/animals-actions/animal-add/ani
   exports: [
     AnimalsComponent
   ],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatButtonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatIconModule
-  ]
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatIconModule,
+        MatProgressBarModule
+    ]
 })
 export class AnimalsModule {
 }

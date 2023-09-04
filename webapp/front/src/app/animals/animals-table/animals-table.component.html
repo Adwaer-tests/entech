@@ -2,6 +2,12 @@
   (onAdd)="dataSource.add($event)"
 ></app-animals-actions>
 
+<mat-progress-bar
+  *ngIf="dataSource.isLoading$ | async"
+  color="primary"
+  mode="indeterminate"
+></mat-progress-bar>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Position Column -->

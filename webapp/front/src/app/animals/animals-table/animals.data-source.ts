@@ -1,6 +1,16 @@
 import {CollectionViewer, DataSource} from "@angular/cdk/collections";
 import {AnimalCreateRequest, AnimalViewModel, ApiClient, IAnimalViewModel} from "../../core/api.client";
-import {BehaviorSubject, map, mergeMap, Observable, shareReplay, Subject, takeUntil, tap} from "rxjs";
+import {
+  BehaviorSubject,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  shareReplay,
+  Subject,
+  takeUntil,
+  tap
+} from "rxjs";
 
 
 interface localChange {
@@ -12,30 +22,36 @@ export class AnimalsDataSource extends DataSource<IAnimalViewModel> {
   private disconnected$ = new Subject<void>();
   private localChanges$ = new BehaviorSubject<localChange>({})
 
-  noData$ = new BehaviorSubject<boolean>(false);
+  noData$ = new BehaviorSubject<boolean>(true);
+  isLoading$ = new BehaviorSubject<boolean>(true);
 
   constructor(private apiClient: ApiClient) {
     super();
   }
 
   connect(collectionViewer: CollectionViewer): Observable<IAnimalViewModel[]> {
-    return this.apiClient.animalsGet().pipe(
-      mergeMap(animals => this.localChanges$.pipe(
-        map(change => {
-          if (change.remove) {
-            animals = animals.filter(a => a.id !== change.remove);
-          }
+    return of(null).pipe(
+      tap(() => this.isLoading$.next(true)),
+      mergeMap(() =>
+        this.apiClient.animalsGet().pipe(
+          mergeMap(animals => this.localChanges$.pipe(
+            map(change => {
+              if (change.remove) {
+                animals = animals.filter(a => a.id !== change.remove);
+              }
 
-          if (change.add) {
-            animals.push(change.add);
-          }
+              if (change.add) {
+                animals.push(change.add);
+              }
 
-          return animals;
-        })
-      )),
-      tap(items => this.noData$.next(!items.length)),
-      takeUntil(this.disconnected$),
-      shareReplay(1)
+              return animals;
+            })
+          )),
+          tap(items => this.noData$.next(!items.length)),
+          tap(() => this.isLoading$.next(false)),
+          takeUntil(this.disconnected$),
+          shareReplay(1)
+        ))
     );
   }
 

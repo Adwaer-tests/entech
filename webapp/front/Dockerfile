@@ -1,17 +1,16 @@
-FROM node:16.17-buster-slim as build-runner
+FROM node:18.14-buster-slim as build-runner
 
 WORKDIR /tmp/app
 
-COPY ./front/package.json .
-COPY ./front/package-lock.json .
-COPY ./front/src ./src
+COPY ./src /tmp/app/src/
+COPY ./angular.json /tmp/app/angular.json
+COPY ./package.json /tmp/app/package.json
+COPY ./package-lock.json /tmp/app/package-lock.json
 
+COPY ./tsconfig.app.json /tmp/app/tsconfig.app.json
+COPY ./tsconfig.json /tmp/app/tsconfig.json
 
 RUN npm install
-
-#COPY ./front/.swcrc .
-COPY ./front/tsconfig-app.json .
-
 
 RUN npm run build
 
@@ -25,8 +24,10 @@ WORKDIR /app
 COPY --from=build-runner /tmp/app/package.json /app/package.json
 COPY --from=build-runner /tmp/app/package-lock.json /app/package-lock.json
 
-COPY --from=build-runner /tmp/app/build /app/build
+COPY --from=build-runner /tmp/app/dist/front /app/build
 
-#RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
+RUN npm i -g http-server
 
-CMD ["node", "build/main.js"]
+WORKDIR build
+CMD ["http-server", "-s"]
